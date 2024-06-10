@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTodo, removeTodo } from './action';
 
 function App() {
+  const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
+  const handleAddTodo = () => {
+    const text = prompt('Enter todo:');
+    dispatch(addTodo(text));
+  };
+  console.log(todos);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+      <h1>Redux-Core</h1>
+    <button onClick={handleAddTodo}>Add Todo</button>
+    <ul>
+      {todos.map((todo, index) => (
+        <li key={index}>
+          {todo.text}
+          <button onClick={() => dispatch(removeTodo(index))}>Remove</button>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 }
 
